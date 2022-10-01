@@ -1,0 +1,13 @@
+.form_type_sign {
+  min-width: 282px;
+  max-width: 358px;
+  margin: 0 auto;
+  padding: 0 30px 70px;
+}
+
+@media screen and (min-width: 576px) {
+  .form_type_sign {
+    padding-top: 20px;
+    padding-bottom: 112px;
+  }
+}

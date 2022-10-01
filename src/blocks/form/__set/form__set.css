@@ -1,0 +1,11 @@
+.form__set {
+  margin: 0;
+  padding: 0;
+  border: none;
+
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}

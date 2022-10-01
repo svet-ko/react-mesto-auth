@@ -1,0 +1,9 @@
+.popup__image_type_tooltip {
+  margin-bottom: 40px;
+}
+
+@media screen and (min-width: 576px) {
+  .popup__image_type_tooltip {
+    margin-bottom: 32px;
+  }
+}
