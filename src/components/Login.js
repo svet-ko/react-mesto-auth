@@ -38,7 +38,7 @@ function Login({ onLogin }) {
             type="email"
             className="form__input form__input_type_email form__input_type_sign"
             onChange={onEmailChange}
-            value={email}
+            value={email || ''}
             id="email" name="email"
             placeholder="Email"
             required
@@ -50,7 +50,7 @@ function Login({ onLogin }) {
             type="password"
             className="form__input form__input_type_password form__input_type_sign"
             onChange={onPasswordChange}
-            value={password}
+            value={password || ''}
             id="password" name="password"
             placeholder="Пароль"
             required

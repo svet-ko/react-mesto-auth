@@ -33,7 +33,7 @@ function Register({ onRegister }) {
 
   return (
     <form className="form form_type_sign" onSubmit={handleFormSubmit}>
-      <h2 className="form__header">Вход</h2>
+      <h2 className="form__header">Регистрация</h2>
       <fieldset className="form__set form__set_type_sign">
         <label className="form__field form__field_type_sign">
           <input

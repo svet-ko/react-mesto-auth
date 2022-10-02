@@ -59,36 +59,36 @@ function EditProfilePopup({
       onSubmit={handleSubmit}
       isFormValid={isFormValid}
     >
-        <fieldset className="form__set">
-          <label className="form__field">
-            <input
-              type="text"
-              className="form__input form__input_type_name"
-              onChange={onNameChange}
-              value={name || ''}
-              id="name" name="name"
-              placeholder="Имя"
-              minLength="2"
-              maxLength="40"
-              required
-            />
-            <span className={`form__input-error ${isNameInputValid ? '' : 'form__input-error_visible'}`}>{nameChangeValidationMessage}</span>
-          </label>
-          <label className="form__field">
-            <input
-              type="text"
-              className="form__input form__input_type_about"
-              value={description || ''}
-              onChange={onDescriptionChange}
-              id="about" name="about"
-              placeholder="О себе"
-              minLength="2"
-              maxLength="200"
-              required
-            />
-            <span className={`form__input-error ${isAboutInputValid ? '' : 'form__input-error_visible'}`}>{aboutChangeValidationMessage}</span>
-          </label>
-        </fieldset>
+      <fieldset className="form__set">
+        <label className="form__field">
+          <input
+            type="text"
+            className="form__input form__input_type_name"
+            onChange={onNameChange}
+            value={name || ''}
+            id="name" name="name"
+            placeholder="Имя"
+            minLength="2"
+            maxLength="40"
+            required
+          />
+          <span className={`form__input-error ${isNameInputValid ? '' : 'form__input-error_visible'}`}>{nameChangeValidationMessage}</span>
+        </label>
+        <label className="form__field">
+          <input
+            type="text"
+            className="form__input form__input_type_about"
+            value={description || ''}
+            onChange={onDescriptionChange}
+            id="about" name="about"
+            placeholder="О себе"
+            minLength="2"
+            maxLength="200"
+            required
+          />
+          <span className={`form__input-error ${isAboutInputValid ? '' : 'form__input-error_visible'}`}>{aboutChangeValidationMessage}</span>
+        </label>
+      </fieldset>
   </PopupWithForm>
   )
 }

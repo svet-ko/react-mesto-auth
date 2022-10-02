@@ -19,17 +19,17 @@ function Card({
   const cardLikeButtonClassName = (`button element__like-button ${isLiked ? 'element__like-button_active' : ''}`)
 
   return(
-      <li className="element">
-        <button type="button" className={cardDeleteButtonClassName} onClick={() => onTrashClick(card)}/>
-        <img src={image} alt={name} className="element__image" onClick={() => onCardClick(card)}/>
-        <div className="element__content">
-          <h2 className="element__name">{name}</h2>
-          <div className="element__like">
-            <button type="button" className={cardLikeButtonClassName} onClick={() => onLikeClick(card)} aria-label="Поставить оценку нравится"></button>
-            <p className="element__like-counter">{likesCount}</p>
-          </div>
+    <li className="element">
+      <button type="button" className={cardDeleteButtonClassName} onClick={() => onTrashClick(card)}/>
+      <img src={image} alt={name} className="element__image" onClick={() => onCardClick(card)}/>
+      <div className="element__content">
+        <h2 className="element__name">{name}</h2>
+        <div className="element__like">
+          <button type="button" className={cardLikeButtonClassName} onClick={() => onLikeClick(card)} aria-label="Поставить оценку нравится"></button>
+          <p className="element__like-counter">{likesCount}</p>
         </div>
-      </li>
+      </div>
+    </li>
   )
 }
 

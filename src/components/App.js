@@ -22,7 +22,6 @@ function App() {
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isImagePopupOpen, setIsImagePopupOpen] = useState(false);
-  const [isBurgerOpen, setBurgerOpen] = useState(false);
   const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
   const [isInfoTooltipSuccessed, setIsInfoTooltipSuccessed] = useState(false);
 
@@ -30,7 +29,6 @@ function App() {
   const [currentUser, setCurrentUser] = useState({});
 
   const [loggedIn, setLoggedIn] = React.useState(false);
-  const [isRegisteredIn, setIsRegisteredIn] = React.useState(false);
 
   const [selectedCard, setSelectedCard] = useState({});
   const [cards, setCards] = useState([]);
@@ -67,19 +65,19 @@ function App() {
   }, [loggedIn]);
 
   function handleRegistration(email, password) {
+    let isRegistered = false;
     auth.register(email, password)
-      .then((res) => {
-        setIsRegisteredIn(true);
+      .then(() => {
+        isRegistered = true;
         history.push('/sign-in');
       })
       .catch((err) => {
-        setIsRegisteredIn(false);
+        isRegistered = false;
       })
-      .finally(() => {
-          setIsInfoTooltipSuccessed(isRegisteredIn);
-          setIsInfoTooltipOpen(true);
-        }
-      )
+      .finally(()=>{
+        setIsInfoTooltipSuccessed(isRegistered);
+        setIsInfoTooltipOpen(true);
+      })
   }
 
   function handleLogin(email, password) {
@@ -91,7 +89,7 @@ function App() {
         history.push('/');
       })
       .catch((err) => {
-        setIsInfoTooltipSuccessed(loggedIn);
+        setIsInfoTooltipSuccessed(false);
         setIsInfoTooltipOpen(true);
       })
   }
@@ -100,11 +98,6 @@ function App() {
     localStorage.removeItem('token');
     setLoggedIn(false);
     history.push('/sign-in');
-    setBurgerOpen((state) => !state);
-  }
-
-  function handleBurgerClick() {
-    setBurgerOpen((state) => !state);
   }
 
   function handleEditProfileClick() {
@@ -195,9 +188,7 @@ function App() {
           <Header 
             loggedIn={loggedIn}
             email={currentEmail}
-            isBurgerOpen={isBurgerOpen}
-            onBurgerClick={handleBurgerClick}
-            onLogOut={handleLogOut}
+            handleLogOut={handleLogOut}
           />
 
           <Switch>

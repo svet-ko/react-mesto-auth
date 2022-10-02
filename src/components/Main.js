@@ -26,18 +26,18 @@ function Main(props) {
       <section className="elements" aria-label="Список картинок пользователя">
         <ul className="list elements__list">
           {
-              props.cards.map((card) => (
-                <Card
-                  key={card._id}
-                  card={card}
-                  image={card.link}
-                  name={card.name}
-                  likesCount={card.likes.length}
-                  onCardClick={props.onCardClick}
-                  onLikeClick={props.onLikeClick}
-                  onTrashClick={props.onTrashClick}
-                />
-              ))
+            props.cards.map((card) => (
+              <Card
+                key={card._id}
+                card={card}
+                image={card.link}
+                name={card.name}
+                likesCount={card.likes.length}
+                onCardClick={props.onCardClick}
+                onLikeClick={props.onLikeClick}
+                onTrashClick={props.onTrashClick}
+              />
+            ))
           }
         </ul>
       </section>
