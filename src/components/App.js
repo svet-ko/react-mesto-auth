@@ -10,7 +10,6 @@ import {CurrentUserContext} from '../contexts/CurrentUserContext';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
-import PopupWithBurgerMenu from './PopupWithBurgerMenu';
 import InfoTooltip from './InfoTooltip';
 import ProtectedRoute from './ProtectedRoute';
 import Login from './Login';
@@ -25,9 +24,10 @@ function App() {
   const [isImagePopupOpen, setIsImagePopupOpen] = useState(false);
   const [isBurgerOpen, setBurgerOpen] = useState(false);
   const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
+  const [isInfoTooltipSuccessed, setIsInfoTooltipSuccessed] = useState(false);
 
   const [currentEmail, setCurrentEmail] = React.useState('');
-  const [currentUser, setcurrentUser] = useState({});
+  const [currentUser, setCurrentUser] = useState({});
 
   const [loggedIn, setLoggedIn] = React.useState(false);
   const [isRegisteredIn, setIsRegisteredIn] = React.useState(false);
@@ -35,48 +35,7 @@ function App() {
   const [selectedCard, setSelectedCard] = useState({});
   const [cards, setCards] = useState([]);
 
-  const history = useHistory();
-
-  function handleRegistration(email, password) {
-    console.log(email);
-    console.log(password);
-    auth.register(email, password)
-      .then((data) => {
-        if (data) {
-          setIsRegisteredIn(true)
-          setIsInfoTooltipOpen(true)
-          history.push('/sign-in');
-        }
-      })
-      .catch((err) => {
-        setIsRegisteredIn(false)
-        setIsInfoTooltipOpen(true)
-        console.log(err);
-      })
-  }
-
-  function handleLogin(email, password) {
-    auth.login(email, password)
-      .then((data) => {
-        if (data.token) {
-          localStorage.setItem('token', data.token);
-          setCurrentEmail(email);
-          setLoggedIn(true);
-          history.push('/');
-        }
-      })
-      .catch((err) => {
-        setIsInfoTooltipOpen(true);
-        console.log(err);
-      })
-  }
-
-  function handleLogOut() {
-    localStorage.removeItem('token');
-    setLoggedIn(false);
-    history.push('/sign-in');
-    setBurgerOpen(!isBurgerOpen);
-  }  
+  const history = useHistory();  
 
   useEffect(() => {
     const jwt = localStorage.getItem('token');
@@ -88,28 +47,69 @@ function App() {
           history.push('/');
         })
         .catch((err) => {
-          console.log(err);
+          console.warn(err);
         })
     }
   }, [history]);
 
-  function handleBurgerClick() {
-    setBurgerOpen(!isBurgerOpen);
-  }
-
   useEffect(() => {
-    api.getUserInfo()
-    .then((res) => {
-      setcurrentUser(res);
-    })
-    .catch((err) => {
+    loggedIn && Promise.all([
+      api.getUserInfo(),
+      api.getInitialCards(),
+    ])
+      .then(([res, initialCards]) => {
+        setCurrentUser(res);
+        setCards(initialCards);
+      })
+      .catch((err) => {
         console.warn(err);
       })
-}, []);
+  }, [loggedIn]);
 
-function handleEditProfileClick() {
-  setIsEditProfilePopupOpen(true);
-}
+  function handleRegistration(email, password) {
+    auth.register(email, password)
+      .then((res) => {
+        setIsRegisteredIn(true);
+        history.push('/sign-in');
+      })
+      .catch((err) => {
+        setIsRegisteredIn(false);
+      })
+      .finally(() => {
+          setIsInfoTooltipSuccessed(isRegisteredIn);
+          setIsInfoTooltipOpen(true);
+        }
+      )
+  }
+
+  function handleLogin(email, password) {
+    auth.login(email, password)
+      .then((data) => {
+        localStorage.setItem('token', data.token);
+        setCurrentEmail(email);
+        setLoggedIn(true);
+        history.push('/');
+      })
+      .catch((err) => {
+        setIsInfoTooltipSuccessed(loggedIn);
+        setIsInfoTooltipOpen(true);
+      })
+  }
+
+  function handleLogOut() {
+    localStorage.removeItem('token');
+    setLoggedIn(false);
+    history.push('/sign-in');
+    setBurgerOpen((state) => !state);
+  }
+
+  function handleBurgerClick() {
+    setBurgerOpen((state) => !state);
+  }
+
+  function handleEditProfileClick() {
+    setIsEditProfilePopupOpen(true);
+  }
 
   function handleAddPlaceClick() {
     setIsAddPlacePopupOpen(true);
@@ -132,89 +132,66 @@ function handleEditProfileClick() {
     setIsImagePopupOpen(true);
   }
 
-  function fetchCardsInfo() {
-      api.getInitialCards()
-      .then((initialCards) => {
-          setCards(initialCards);
-      })
-      .catch((err) => {
-          console.warn(err);
-        })
-  }
-
-  useEffect(() => {
-      fetchCardsInfo();
-  }, []); 
-
   function handleCardLike(card) {
     const isLiked = card.likes.some(i => i._id === currentUser._id);
-    
     api.changeLikeCardStatus(card._id, !isLiked)
-    .then((newCard) => {
-        setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
-    })
-    .catch((err) => {
-      console.warn(err);
-    });
+      .then((newCard) => {
+          setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
+      })
+      .catch((err) => {
+        console.warn(err);
+      });
   }
 
   function handleCardDelete(card) {
     api.deleteCard(card._id)
-    .then(
-      setCards((state) => state.filter((c) => {
+      .then(
+        setCards((state) => state.filter((c) => {
         return c._id !== card._id
-      }))
-    )
-    .catch((err) => {
+        }))
+      )
+      .catch((err) => {
         console.warn(err);
       })
   }
 
   function handleUpdateUser({name, about}) {
     api.applyUserInfo({name, about})
-    .then((res) => {
-      setcurrentUser(res);
-      closeAllPopups();
-    })
-    .catch((err) => {
-      console.warn(err);
-    })
+      .then((res) => {
+        setCurrentUser(res);
+        closeAllPopups();
+      })
+      .catch((err) => {
+        console.warn(err);
+      })
   }
 
   function handleAvatarUpdate({avatar}) {
     api.updateUserAvatar(avatar)
-    .then((res)=> {
-      setcurrentUser(res);
-      closeAllPopups();
-    })
-    .catch((err) => {
-      console.warn(err);
-    })
+      .then((res)=> {
+        setCurrentUser(res);
+        closeAllPopups();
+      })
+      .catch((err) => {
+        console.warn(err);
+      })
   }
 
   function handleAddPlace({name, link}) {
     api.sendCreatedCard({name, link})
-    .then((res) => {
-      setCards([res, ...cards]);
-      closeAllPopups();
-    })
-    .catch((err) => {
-      console.warn(err);
-    })
+      .then((res) => {
+        setCards([res, ...cards]);
+        closeAllPopups();
+      })
+      .catch((err) => {
+        console.warn(err);
+      })
   }
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
         <div className="content">
-
-          <PopupWithBurgerMenu
-            isOpen={isBurgerOpen}
-            onClose={closeAllPopups}
-            email={currentEmail}
-            onLogOut={handleLogOut}
-          />
-
           <Header 
             loggedIn={loggedIn}
             email={currentEmail}
@@ -279,10 +256,11 @@ function handleEditProfileClick() {
           <InfoTooltip
             isOpen={isInfoTooltipOpen}
             onClose={closeAllPopups}
-            isRegistered={isRegisteredIn} 
+            isSuccessed={isInfoTooltipSuccessed}
+            successText='Вы успешно зарегистрировались!'
+            errorText='Что-то пошло не так! Попробуйте ещё раз.'
           />
         </div>
-
       </div>
     </CurrentUserContext.Provider>  
   );

@@ -87,9 +87,9 @@ class Api{
 }
 
 export const api = new Api({
-    host: 'https://mesto.nomoreparties.co/v1/cohort-47',
-    headers: {
-      authorization: 'c90390ff-d2c8-4a08-89e0-57975fd0d0b1',
-      'Content-Type': 'application/json'
-    }
-  })
+  host: 'https://mesto.nomoreparties.co/v1/cohort-47',
+  headers: {
+    authorization: 'c90390ff-d2c8-4a08-89e0-57975fd0d0b1',
+    'Content-Type': 'application/json'
+  }
+})
