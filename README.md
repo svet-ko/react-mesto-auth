@@ -1,33 +1,35 @@
-# Проект: Место
-Mesto - это социальная сеть, созданная для того, чтобы делиться фотографиями. Карточки с фотографиями можно добавлять, удалять, делать к ним подписи, приближать, а также ставить лайки. Все карточки сохраняются на сервере. Также на сайте доступна регистрация и авторизация.
+# Mesto React
+Mesto is a social network created to share photos with other users, as well as view photos of others. Cards with photos can be added, deleted, captioned, zoomed in, and liked. All cards are saved on the server. Registration and authorization is also available on the site.
 
-## Стек технологий проекта:
+## Technologies:
 
-- React
-- HTML5
-- CSS3
+![React](https://img.shields.io/badge/-React-090909?style=for-the-badge&logo=React) 
+![JavaScript](https://img.shields.io/badge/-JavaScript-090909?style=for-the-badge&logo=JavaScript)
+![Webpack](https://img.shields.io/badge/-Webpack-090909?style=for-the-badge&logo=Webpack)
+![HTML5](https://img.shields.io/badge/-HTML5-090909?style=for-the-badge&logo=HTML5)
+![CSS3](https://img.shields.io/badge/-CSS3-090909?style=for-the-badge&logo=CSS3)
 
-### В проекте были применены следующие подходы и технологии:
+### The following approaches and technologies were applied in the project:
 
 - React Router 5.2.1
 - REST API
-- HOC-компонент ProtectedRoute
-- Сохранение сессии пользователя при помощи localStorage
-- Контекст для текущего пользователя
-- Валидация форм
-- Адаптивная верстка Mobile first подход
+- HOC-component ProtectedRoute
+- Saving a user session with localStorage
+- Context for current user
+- Form validation
+- Responsive layout Mobile first approach
 - Flex и Grid Layout
-- CSS анимация
-- Файловая структура по БЭМ (Nested)
+- CSS animations
+- File structure according to BEM (Nested)
 
-### Как развернуть проект на своём компьютере:
+### How to deploy a project on your computer:
 
-1. Слонировать репозиторий через командную строку:
+1. Clone repository via command line:
 `git clone https://github.com/svet-ko/react-mesto-auth.git`
-2. Установить все зависимости с помощью команды:
+2. Install all dependencies with the command:
 `npm install`
-3. Запустить проект:
-- в режиме разработчика с помощью команды:
+3. Start project:
+- in developer mode using the command:
 `npm run start`
-- в режиме production с помощью команды:
+- in production mode with the command:
 `npm run build`
