@@ -1,4 +1,4 @@
-# Mesto React
+# Mesto React with authentication
 Mesto is a social network created to share photos with other users, as well as view photos of others. Cards with photos can be added, deleted, captioned, zoomed in, and liked. All cards are saved on the server. Registration and authorization is also available on the site.
 
 ## Technologies:
